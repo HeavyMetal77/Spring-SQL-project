@@ -1,9 +1,6 @@
 package ua.com.juja.service;
 
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.stereotype.Component;
 import ua.com.juja.model.DBManager;
 import ua.com.juja.model.DataSet;
@@ -14,14 +11,10 @@ import java.util.List;
 import java.util.Set;
 
 @Component
-public class ServiceImpl implements Service, ApplicationContextAware {
+public abstract class ServiceImpl implements Service {
 
-    public ApplicationContext applicationContext;
-
-    @Bean
-    public DBManager getDBManager() {
-        return (DBManager) applicationContext.getBean("JDBCDBManager");
-    }
+    @Lookup
+    public abstract DBManager getDBManager();
 
     @Override
     public List<String> commands() {
@@ -126,10 +119,5 @@ public class ServiceImpl implements Service, ApplicationContextAware {
     @Override
     public void update(DBManager dbManager, String nameTable, String column1, String value1, DataSet dataSets) {
         dbManager.update(nameTable, column1, value1, dataSets);
-    }
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
     }
 }
