@@ -1,33 +1,33 @@
 package ua.com.juja.service;
 
+import ua.com.juja.model.DBManager;
 import ua.com.juja.model.DataSet;
 
-import java.sql.Connection;
 import java.util.List;
 import java.util.Set;
 
 public interface Service {
     List<String> commands();
 
-    Connection connect(String databaseName, String userName, String password);
+    DBManager connect(String databaseName, String userName, String password);
 
-    List<List<String>> find(String databaseName);
+    List<List<String>> find(DBManager dbManager, String nameTable);
 
-    void clear(String databaseName);
+    void clear(DBManager dbManager, String nameTable);
 
-    void delete(String nameTable, String columnName, String columnValue);
+    void delete(DBManager dbManager, String nameTable, String columnName, String columnValue);
 
-    void drop(String nameTable);
+    void drop(DBManager dbManager, String nameTable);
 
-    Set<String> tables();
+    Set<String> tables(DBManager dbManager);
 
-    void createDataBase(String databaseName);
+    void createDataBase(DBManager dbManager, String databaseName);
 
-    Set<String> databases();
+    Set<String> databases(DBManager dbManager);
 
-    void createTable(String[] params);
+    void createTable(DBManager dbManager, String[] params);
 
-    void dbDrop(String nameDB);
+    void dbDrop(DBManager dbManager, String nameDB);
 
-    void update(String nameTable, String column1, String value1, DataSet dataSets);
+    void update(DBManager dbManager, String nameTable, String column1, String value1, DataSet dataSets);
 }

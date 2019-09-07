@@ -23,7 +23,7 @@ public class JDBCDBManager implements DBManager {
 
     //получить соединение с БД
     @Override
-    public Connection connect(String database, String login, String password) {
+    public void connect(String database, String login, String password) {
         ConnectionManager connectionManager = new ConnectionManager();
         try {
             if (connectionManager.isConnected()) {
@@ -34,7 +34,6 @@ public class JDBCDBManager implements DBManager {
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
-        return connection;
     }
 
     public void closeOpenedConnection() {

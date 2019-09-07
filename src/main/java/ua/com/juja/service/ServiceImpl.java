@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import ua.com.juja.model.DBManager;
 import ua.com.juja.model.DataSet;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,7 +12,7 @@ import java.util.Set;
 
 @Component
 public class ServiceImpl implements Service {
-    private DBManager dbManager;
+
     private final DatabaseManagerFactory factory;
 
     @Autowired
@@ -42,13 +41,14 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public Connection connect(String databaseName, String userName, String password) {
-        dbManager = factory.createDatabaseManager();
-        return dbManager.connect(databaseName, userName, password);
+    public DBManager connect(String databaseName, String userName, String password) {
+        DBManager dbManager = factory.createDatabaseManager();
+        dbManager.connect(databaseName, userName, password);
+        return dbManager;
     }
 
     @Override
-    public List<List<String>> find(String nameTable) {
+    public List<List<String>> find(DBManager dbManager, String nameTable) {
         List<List<String>> result = new LinkedList<>();
         List<String> columns = new LinkedList<>(dbManager.getAtribute(nameTable));
         List<DataSet> tableData = dbManager.getDataSetTable(nameTable);
@@ -69,37 +69,37 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public void clear(String nameTable) {
+    public void clear(DBManager dbManager, String nameTable) {
         dbManager.clear(nameTable);
     }
 
     @Override
-    public void delete(String nameTable, String columnName, String columnValue) {
+    public void delete(DBManager dbManager, String nameTable, String columnName, String columnValue) {
         dbManager.delete(nameTable, columnName, columnValue);
     }
 
     @Override
-    public void drop(String nameTable) {
+    public void drop(DBManager dbManager, String nameTable) {
         dbManager.drop(nameTable);
     }
 
     @Override
-    public Set<String> tables() {
+    public Set<String> tables(DBManager dbManager) {
         return dbManager.getTables();
     }
 
     @Override
-    public void createDataBase(String databaseName) {
+    public void createDataBase(DBManager dbManager, String databaseName) {
         dbManager.createDatabase(databaseName);
     }
 
     @Override
-    public Set<String> databases() {
+    public Set<String> databases(DBManager dbManager) {
         return dbManager.getDatabases();
     }
 
     @Override
-    public void createTable(String[] params) {
+    public void createTable(DBManager dbManager, String[] params) {
         String nameTable = params[0];
         String[] nameColumns = new String[params.length - 1];
         for (int i = 1, j = 0; i < params.length; i++) {
@@ -117,12 +117,12 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public void dbDrop(String nameDB) {
+    public void dbDrop(DBManager dbManager, String nameDB) {
         dbManager.dropDatabase(nameDB);
     }
 
     @Override
-    public void update(String nameTable, String column1, String value1, DataSet dataSets) {
+    public void update(DBManager dbManager, String nameTable, String column1, String value1, DataSet dataSets) {
         dbManager.update(nameTable, column1, value1, dataSets);
     }
 }
