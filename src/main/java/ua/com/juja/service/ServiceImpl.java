@@ -1,6 +1,9 @@
 package ua.com.juja.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import ua.com.juja.model.DBManager;
 import ua.com.juja.model.DataSet;
@@ -11,15 +14,14 @@ import java.util.List;
 import java.util.Set;
 
 @Component
-public class ServiceImpl implements Service {
+public class ServiceImpl implements Service, ApplicationContextAware {
 
-    private final DatabaseManagerFactory factory;
+    public ApplicationContext applicationContext;
 
-    @Autowired
-    public ServiceImpl(DatabaseManagerFactory factory) {
-        this.factory = factory;
+    @Bean
+    public DBManager getDBManager() {
+        return (DBManager) applicationContext.getBean("JDBCDBManager");
     }
-
 
     @Override
     public List<String> commands() {
@@ -42,7 +44,7 @@ public class ServiceImpl implements Service {
 
     @Override
     public DBManager connect(String databaseName, String userName, String password) {
-        DBManager dbManager = factory.createDatabaseManager();
+        DBManager dbManager = getDBManager();
         dbManager.connect(databaseName, userName, password);
         return dbManager;
     }
@@ -124,5 +126,10 @@ public class ServiceImpl implements Service {
     @Override
     public void update(DBManager dbManager, String nameTable, String column1, String value1, DataSet dataSets) {
         dbManager.update(nameTable, column1, value1, dataSets);
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
     }
 }
