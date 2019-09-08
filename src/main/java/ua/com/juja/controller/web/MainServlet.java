@@ -49,11 +49,10 @@ public class MainServlet extends HttpServlet {
         } else if (action.startsWith("/DBdrop")) {
             req.getRequestDispatcher("dbDrop.jsp").forward(req, resp);
         } else if (action.startsWith("/tables")) {
-            service.tables(manager);
-            req.setAttribute("listtable", service.tables(manager));
+            req.setAttribute("listtable", manager.getTables());
             req.getRequestDispatcher("tables.jsp").forward(req, resp);
         } else if (action.startsWith("/databases")) {
-            req.setAttribute("listdatabases", service.databases(manager));
+            req.setAttribute("listdatabases", manager.getDatabases());
             req.getRequestDispatcher("databases.jsp").forward(req, resp);
         } else if (action.startsWith("/createDB")) {
             req.getRequestDispatcher("createDB.jsp").forward(req, resp);
@@ -74,7 +73,7 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = getAction(req);
-        DBManager manager = null;
+        DBManager manager = (DBManager) req.getSession().getAttribute("db_manager");
         if (action.startsWith("/connect")) {
             String databaseName = req.getParameter("dbname");
             String userName = req.getParameter("username");
@@ -93,35 +92,35 @@ public class MainServlet extends HttpServlet {
             req.getRequestDispatcher("findResult.jsp").forward(req, resp);
         } else if (action.startsWith("/clear")) {
             String tableName = req.getParameter("nameTable");
-            service.clear(manager, tableName);
+            manager.clear(tableName);
             req.setAttribute("listdataset", service.find(manager, tableName));
             req.getRequestDispatcher("findResult.jsp").forward(req, resp);
         } else if (action.startsWith("/delete")) {
             String tableName = req.getParameter("nameTable");
             String columnName = req.getParameter("columnName");
             String columnValue = req.getParameter("columnValue");
-            service.delete(manager, tableName, columnName, columnValue);
+            manager.delete(tableName, columnName, columnValue);
             req.setAttribute("listdataset", service.find(manager, tableName));
             req.getRequestDispatcher("findResult.jsp").forward(req, resp);
         } else if (action.startsWith("/drop")) {
             String tableName = req.getParameter("nameTable");
-            service.drop(manager, tableName);
-            req.setAttribute("listtable", service.tables(manager));
+            manager.drop(tableName);
+            req.setAttribute("listtable", manager.getTables());
             req.getRequestDispatcher("tables.jsp").forward(req, resp);
         } else if (action.startsWith("/dbDrop")) {
             String nameDB = req.getParameter("nameDB");
-            service.dbDrop(manager, nameDB);
-            req.setAttribute("listdatabases", service.databases(manager));
+            manager.dropDatabase(nameDB);
+            req.setAttribute("listdatabases", manager.getDatabases());
             req.getRequestDispatcher("databases.jsp").forward(req, resp);
         } else if (action.startsWith("/createDB")) {
             String databaseName = req.getParameter("databaseName");
-            service.createDataBase(manager, databaseName);
-            req.setAttribute("listdatabases", service.databases(manager));
+            manager.createDatabase(databaseName);
+            req.setAttribute("listdatabases", manager.getDatabases());
             req.getRequestDispatcher("databases.jsp").forward(req, resp);
         } else if (action.startsWith("/createTable")) {
             String[] params = req.getParameterValues("table");
             service.createTable(manager, params);
-            req.setAttribute("listtable", service.tables(manager));
+            req.setAttribute("listtable", manager.getTables());
             req.getRequestDispatcher("tables.jsp").forward(req, resp);
         } else if (action.startsWith("/update")) {
             String[] params = req.getParameterValues("table");
@@ -130,7 +129,7 @@ public class MainServlet extends HttpServlet {
             String value1 = params[2];
             DataSet dataSets = new DataSetImpl();
             dataSets.put(params[3], params[4]);
-            service.update(manager, nameTable, column1, value1, dataSets);
+            manager.update(nameTable, column1, value1, dataSets);
             req.setAttribute("listdataset", service.find(manager, nameTable));
             req.getRequestDispatcher("findResult.jsp").forward(req, resp);
         }
