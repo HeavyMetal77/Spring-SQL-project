@@ -16,6 +16,7 @@
         <project.java.version>1.8</project.java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <org.springframework.version>5.1.8.RELEASE</org.springframework.version>
+        <jettyVersion>8.1.3.v20120416</jettyVersion>
     </properties>
 
 
@@ -84,6 +85,30 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
+
+
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>${jettyVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-client</artifactId>
+            <version>${jettyVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-webapp</artifactId>
+            <version>${jettyVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-jsp</artifactId>
+            <version>${jettyVersion}</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>
@@ -98,6 +123,21 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>${jettyVersion}</version>
+                <configuration>
+                    <webApp>
+                        <contextPath>/sqlcmd</contextPath>
+                    </webApp>
+                    <stopPort>9999</stopPort>
+                    <stopKey>foo</stopKey>
+                </configuration>
+
+            </plugin>
+
         </plugins>
 
         <testResources>
@@ -105,5 +145,7 @@
                 <directory>${project.basedir}/src/test/resources</directory>
             </testResource>
         </testResources>
+
+
     </build>
 </project>

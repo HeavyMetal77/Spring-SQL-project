@@ -39,7 +39,9 @@ public class MainServlet extends HttpServlet {
         } else if (action.startsWith("/help")) {
             req.getRequestDispatcher("help.jsp").forward(req, resp);
         } else if (action.startsWith("/find")) {
-            req.getRequestDispatcher("find.jsp").forward(req, resp);
+            String nameTable = req.getParameter("nameTable");
+            req.setAttribute("listdataset", service.find(manager, nameTable));
+            req.getRequestDispatcher("findResult.jsp").forward(req, resp);
         } else if (action.startsWith("/clear")) {
             req.getRequestDispatcher("clear.jsp").forward(req, resp);
         } else if (action.startsWith("/delete")) {

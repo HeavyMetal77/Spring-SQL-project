@@ -18,11 +18,9 @@ public abstract class ServiceImpl implements Service {
     @Override
     public List<String> commands() {
         List<String> list = new ArrayList<>();
-        list.add("connect");
         list.add("help");
         list.add("menu");
         list.add("tables");
-        list.add("find");
         list.add("clear");
         list.add("delete");
         list.add("drop");
@@ -37,8 +35,12 @@ public abstract class ServiceImpl implements Service {
     @Override
     public DBManager connect(String databaseName, String userName, String password) {
         DBManager dbManager = getDBManager();
-        dbManager.connect(databaseName, userName, password);
-        return dbManager;
+        if (dbManager != null) {
+            dbManager.connect(databaseName, userName, password);
+            return dbManager;
+        } else {
+            throw new RuntimeException("DBManager is null!");
+        }
     }
 
     @Override

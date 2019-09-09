@@ -9,11 +9,12 @@
 <table border="1">
     <c:forEach items="${listtable}" var="element">
         <td>
-                ${element}
+            <a href="find?nameTable=${element}">${element}</a><br>
         </td>
     </c:forEach>
     <br>
     <a href="menu">Menu</a> <br>
+    <a href="tables">Tables</a> <br>
 </table>
 </body>
 </html>

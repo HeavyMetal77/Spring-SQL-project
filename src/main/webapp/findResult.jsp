@@ -17,7 +17,9 @@
         </tr>
     </c:forEach>
     <br>
+    <a href="help">Help</a> <br>
     <a href="menu">Menu</a> <br>
+    <a href="tables">Tables</a> <br>
 </table>
 </body>
 </html>

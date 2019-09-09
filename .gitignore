@@ -2,3 +2,6 @@
 target/
 product/
 .idea/workspace.xml
+.iml
+sqlcmd.properties
+SQLCmd.iml
