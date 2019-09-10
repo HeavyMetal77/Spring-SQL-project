@@ -19,11 +19,14 @@ public class ServiceImplTest {
 
     @Test
     public void testServiceCommands() {
-        //Given
-//        DBManager dbManager = service.connect("sqlcmd", "sqlcmd", "sqlcmd");
         //When
         List<String> commands = service.commands();
         //Then
-        assertEquals("[connect, help, menu, tables, find, clear, delete, drop, DBdrop, databases, createDB, createTable, update]", commands.toString());
+        assertEquals("[help, tables, clear, delete, drop, DBdrop, databases, createDB, createTable, update]", commands.toString());
+    }
+
+    @Test
+    public void testConnect() throws Exception {
+        service.connect("sqlcmd", "sqlcmd", "sqlcmd");
     }
 }

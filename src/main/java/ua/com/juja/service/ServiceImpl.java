@@ -19,7 +19,6 @@ public abstract class ServiceImpl implements Service {
     public List<String> commands() {
         List<String> list = new ArrayList<>();
         list.add("help");
-        list.add("menu");
         list.add("tables");
         list.add("clear");
         list.add("delete");
