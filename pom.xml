@@ -103,6 +103,13 @@
             <artifactId>jetty-jsp</artifactId>
             <version>${jettyVersion}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.9.10</version>
+        </dependency>
+
     </dependencies>
 
     <build>

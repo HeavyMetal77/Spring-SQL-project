@@ -11,6 +11,8 @@ import java.util.List;
 
 @Component
 public abstract class ServiceImpl implements Service {
+    public ServiceImpl() {
+    }
 
     @Lookup
     public abstract DBManager getDBManager();

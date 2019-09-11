@@ -3,10 +3,10 @@
 
 <html>
 <head>
-    <title>Update</title>
+    <title>Insert</title>
 </head>
 <body>
-<p>Обновление значений таблицы:</p><br>
+<p>Вставка значений таблицы:</p><br>
 <form action="update" method="post">
     <table>
         <tr>
