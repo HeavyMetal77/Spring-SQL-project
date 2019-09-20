@@ -1,6 +1,5 @@
 package ua.com.juja.model;
 
-import ua.com.juja.controller.web.NullDbManager;
 import ua.com.juja.model.configuration.ConnectionManager;
 
 import java.sql.Connection;
@@ -8,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 
 public interface DBManager {
-    DBManager NULL = new NullDbManager();
 
     //получить соединение с БД
     void connect(String database, String login, String password);
