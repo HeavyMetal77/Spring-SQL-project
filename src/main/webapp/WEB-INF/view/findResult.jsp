@@ -11,7 +11,7 @@
         <tr>
             <c:forEach items="${row}" var="element">
                 <td>
-                    <a href="find?nameTable=${element}">${element}</a><br>
+                        ${element}<br>
                 </td>
             </c:forEach>
         </tr>

@@ -69,6 +69,26 @@ public class MainController {
         }
     }
 
+    @RequestMapping(value = "/tables", method = RequestMethod.GET)
+    public String tablesGET(Model model,
+                            HttpSession session) {
+        DBManager manager = getManager(session);
+        if (manager == null) {
+            session.setAttribute("from-page", "/tables");
+            return "redirect:/connect";
+        }
+        model.addAttribute("listtable", manager.getTables());
+        return "tables";
+    }
+
+    @RequestMapping(value = "/find", method = RequestMethod.GET)
+    public String tablesPOST(Model model, HttpSession session, String nameTable) {
+        DBManager manager = getManager(session);
+
+        model.addAttribute("listdataset", service.find(manager, nameTable));
+        return "findResult";
+    }
+
     private DBManager getManager(HttpSession session) {
         return (DBManager) session.getAttribute("db_manager");
     }
