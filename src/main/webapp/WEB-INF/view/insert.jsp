@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <html>
 <head>
@@ -7,35 +8,36 @@
 </head>
 <body>
 <p>Вставка значений таблицы:</p><br>
-<form action="update" method="post">
+<form:form action="insert" method="post" modelAttribute="table">
     <table>
         <tr>
-            <td>Введите название таблицы:</td>
-            <td><input type="text" name="table"/></td>
+            <td><form:label path="nameTable">Название таблицы</form:label></td>
+            <td><form:input path="nameTable"/></td>
         </tr>
         <tr>
-            <td>Введите название столбца1:</td>
-            <td><input type="text" name="table"/></td>
+            <td><form:label path="columnName">Где название столбца</form:label></td>
+            <td><form:input path="columnName"/></td>
         </tr>
         <tr>
-            <td>Введите значение столбца1:</td>
-            <td><input type="text" name="table"/></td>
+            <td><form:label path="columnValue">Значение столбца</form:label></td>
+            <td><form:input path="columnValue"/></td>
         </tr>
         <tr>
-        <tr>
-            <td>Введите название столбца2:</td>
-            <td><input type="text" name="table"/></td>
+            <td><form:label path="changeColumnName">Найти название столбца2</form:label></td>
+            <td><form:input path="changeColumnName"/></td>
         </tr>
         <tr>
-            <td>Введите значение столбца2:</td>
-            <td><input type="text" name="table"/></td>
+            <td><form:label path="changeColumnValue">Новое значение столбца2</form:label></td>
+            <td><form:input path="changeColumnValue"/></td>
         </tr>
         <tr>
             <td></td>
-            <td><input type="submit" value="update"/></td>
+            <td><input type="submit" value="insert"/></td>
         </tr>
     </table>
-</form>
+</form:form>
+
+
 <a href="help">Help</a> <br>
 <a href="menu">Menu</a> <br>
 <a href="tables">Tables</a> <br>

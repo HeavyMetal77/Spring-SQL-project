@@ -30,6 +30,7 @@ public abstract class ServiceImpl implements Service {
         list.add("createDB");
         list.add("createTable");
         list.add("update");
+        list.add("insert");
         return list;
     }
 

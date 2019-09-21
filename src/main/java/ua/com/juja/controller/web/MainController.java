@@ -255,6 +255,34 @@ public class MainController {
         return "findResult";
     }
 
+    @RequestMapping(value = "/insert", method = RequestMethod.GET)
+    public String insertGET(Model model, HttpSession session) {
+        DBManager manager = getManager(session);
+        if (manager == null) {
+            session.setAttribute("from-page", "/insert");
+            return "redirect:/connect";
+        }
+        model.addAttribute("table", new Table());
+        return "insert";
+    }
+
+    @RequestMapping(value = "/insert", method = RequestMethod.POST)
+    public String insertPOST(Model model, HttpSession session,
+                             @RequestParam(value = "nameTable") String nameTable,
+                             @RequestParam(value = "columnName") String columnName,
+                             @RequestParam(value = "columnValue") String columnValue,
+                             @RequestParam(value = "changeColumnName") String changeColumnName,
+                             @RequestParam(value = "changeColumnValue") String changeColumnValue) {
+        DBManager manager = getManager(session);
+        DataSet dataSets = new DataSetImpl();
+        dataSets.put(columnName, columnValue);
+        dataSets.put(changeColumnName, changeColumnValue);
+        manager.insert(nameTable, dataSets);
+        model.addAttribute("listdataset", service.find(manager, nameTable));
+        return "findResult";
+    }
+
+
     private DBManager getManager(HttpSession session) {
         return (DBManager) session.getAttribute("db_manager");
     }
