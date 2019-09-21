@@ -7,9 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import ua.com.juja.model.DBManager;
-import ua.com.juja.model.DataBases;
-import ua.com.juja.model.Table;
+import ua.com.juja.model.*;
 import ua.com.juja.service.Service;
 
 import javax.servlet.http.HttpSession;
@@ -229,6 +227,32 @@ public class MainController {
         manager.dropDatabase(databaseName);
         model.addAttribute("listdatabases", manager.getDatabases());
         return "databases";
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    public String updateGET(Model model, HttpSession session) {
+        DBManager manager = getManager(session);
+        if (manager == null) {
+            session.setAttribute("from-page", "/update");
+            return "redirect:/connect";
+        }
+        model.addAttribute("table", new Table());
+        return "update";
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String updatePOST(Model model, HttpSession session,
+                             @RequestParam(value = "nameTable") String nameTable,
+                             @RequestParam(value = "columnName") String columnName,
+                             @RequestParam(value = "columnValue") String columnValue,
+                             @RequestParam(value = "changeColumnName") String changeColumnName,
+                             @RequestParam(value = "changeColumnValue") String changeColumnValue) {
+        DBManager manager = getManager(session);
+        DataSet dataSets = new DataSetImpl();
+        dataSets.put(changeColumnName, changeColumnValue);
+        manager.update(nameTable, columnName, columnValue, dataSets);
+        model.addAttribute("listdataset", service.find(manager, nameTable));
+        return "findResult";
     }
 
     private DBManager getManager(HttpSession session) {

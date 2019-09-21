@@ -11,7 +11,7 @@
 <form:form action="delete" method="post" modelAttribute="table">
     <table>
         <tr>
-            <td><form:label path="nameTable">Таблица</form:label></td>
+            <td><form:label path="nameTable">Название таблицы</form:label></td>
             <td><form:input path="nameTable"/></td>
         </tr>
         <tr>
