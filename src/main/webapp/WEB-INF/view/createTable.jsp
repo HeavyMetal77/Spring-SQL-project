@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <html>
 <head>
@@ -7,26 +8,24 @@
 </head>
 <body>
 <p>Создание таблицы:</p><br>
-<form action="createTable" method="post">
+
+<form:form action="createTable" method="post" modelAttribute="table">
     <table>
         <tr>
-            <td>Введите название таблицы:</td>
-            <td><input type="text" name="table"/></td>
+            <td><form:label path="nameTable">Таблица</form:label></td>
+            <td><form:input path="nameTable"/></td>
         </tr>
         <tr>
-            <td>Введите название столбца:</td>
-            <td><input type="text" name="table"/></td>
-        </tr>
-        <tr>
-            <td>Введите название столбца:</td>
-            <td><input type="text" name="table"/></td>
+            <td><form:label path="columnName">Название столбца</form:label></td>
+            <td><form:input path="columnName"/></td>
         </tr>
         <tr>
             <td></td>
             <td><input type="submit" value="createTable"/></td>
         </tr>
     </table>
-</form>
+</form:form>
+
 <a href="help">Help</a> <br>
 <a href="menu">Menu</a> <br>
 </body>

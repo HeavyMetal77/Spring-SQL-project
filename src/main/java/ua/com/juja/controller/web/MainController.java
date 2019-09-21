@@ -75,8 +75,7 @@ public class MainController {
     }
 
     @RequestMapping(value = "/tables", method = RequestMethod.GET)
-    public String tablesGET(Model model,
-                            HttpSession session) {
+    public String tablesGET(Model model, HttpSession session) {
         DBManager manager = getManager(session);
         if (manager == null) {
             session.setAttribute("from-page", "/tables");
@@ -147,6 +146,48 @@ public class MainController {
         manager.delete(nameTable, columnName, columnValue);
         model.addAttribute("listdataset", service.find(manager, nameTable));
         return "findResult";
+    }
+
+    @RequestMapping(value = "/drop", method = RequestMethod.GET)
+    public String dropGET(Model model, HttpSession session) {
+        DBManager manager = getManager(session);
+        if (manager == null) {
+            session.setAttribute("from-page", "/drop");
+            return "redirect:/connect";
+        }
+        model.addAttribute("table", new Table());
+        return "drop";
+    }
+
+    @RequestMapping(value = "/drop", method = RequestMethod.POST)
+    public String dropPOST(Model model, HttpSession session,
+                           @RequestParam(value = "nameTable") String nameTable) {
+        DBManager manager = getManager(session);
+        manager.drop(nameTable);
+        model.addAttribute("listtable", manager.getTables());
+        return "tables";
+    }
+
+    @RequestMapping(value = "/createTable", method = RequestMethod.GET)
+    public String createGET(Model model, HttpSession session) {
+        DBManager manager = getManager(session);
+        if (manager == null) {
+            session.setAttribute("from-page", "/createTable");
+            return "redirect:/connect";
+        }
+        model.addAttribute("table", new Table());
+        return "createTable";
+    }
+
+    @RequestMapping(value = "/createTable", method = RequestMethod.POST)
+    public String createTablePOST(Model model, HttpSession session,
+                                  @RequestParam(value = "nameTable") String nameTable,
+                                  @RequestParam(value = "columnName") String columnName) {
+        DBManager manager = getManager(session);
+        String[] params = {nameTable, columnName};
+        service.createTable(manager, params);
+        model.addAttribute("listtable", manager.getTables());
+        return "tables";
     }
 
     private DBManager getManager(HttpSession session) {
