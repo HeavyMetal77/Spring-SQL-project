@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.com.juja.model.DBManager;
+import ua.com.juja.model.DataBases;
 import ua.com.juja.model.Table;
 import ua.com.juja.service.Service;
 
@@ -188,6 +189,46 @@ public class MainController {
         service.createTable(manager, params);
         model.addAttribute("listtable", manager.getTables());
         return "tables";
+    }
+
+    @RequestMapping(value = "/createDB", method = RequestMethod.GET)
+    public String createDbGET(Model model, HttpSession session) {
+        DBManager manager = getManager(session);
+        if (manager == null) {
+            session.setAttribute("from-page", "/createDB");
+            return "redirect:/connect";
+        }
+        model.addAttribute("database", new DataBases());
+        return "createDB";
+    }
+
+    @RequestMapping(value = "/createDB", method = RequestMethod.POST)
+    public String createDbPOST(Model model, HttpSession session,
+                               @RequestParam(value = "databaseName") String databaseName) {
+        DBManager manager = getManager(session);
+        manager.createDatabase(databaseName);
+        model.addAttribute("listdatabases", manager.getDatabases());
+        return "databases";
+    }
+
+    @RequestMapping(value = "/DBdrop", method = RequestMethod.GET)
+    public String dbDropGET(Model model, HttpSession session) {
+        DBManager manager = getManager(session);
+        if (manager == null) {
+            session.setAttribute("from-page", "/DBdrop");
+            return "redirect:/connect";
+        }
+        model.addAttribute("database", new DataBases());
+        return "dbDrop";
+    }
+
+    @RequestMapping(value = "/DBdrop", method = RequestMethod.POST)
+    public String dbDropPOST(Model model, HttpSession session,
+                             @RequestParam(value = "databaseName") String databaseName) {
+        DBManager manager = getManager(session);
+        manager.dropDatabase(databaseName);
+        model.addAttribute("listdatabases", manager.getDatabases());
+        return "databases";
     }
 
     private DBManager getManager(HttpSession session) {
