@@ -6,7 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import ua.com.juja.model.DBManager;
+import ua.com.juja.model.Table;
 import ua.com.juja.service.Service;
 
 import javax.servlet.http.HttpSession;
@@ -27,7 +29,10 @@ public class MainController {
     }
 
     @RequestMapping(value = "/menu", method = RequestMethod.GET)
-    public String menu(Model model) {
+    public String menu(Model model, HttpSession session) {
+        if (getManager(session) == null) {
+            return "redirect:/connect";
+        }
         model.addAttribute("list", service.commands());
         return "menu";
     }
@@ -45,7 +50,7 @@ public class MainController {
         if (getManager(session) == null) {
             return "connect";
         } else {
-            return "menu";
+            return "redirect:/menu";
         }
     }
 
@@ -84,7 +89,62 @@ public class MainController {
     @RequestMapping(value = "/find", method = RequestMethod.GET)
     public String tablesPOST(Model model, HttpSession session, String nameTable) {
         DBManager manager = getManager(session);
+        if (manager == null) {
+            session.setAttribute("from-page", "/tables");
+            return "redirect:/connect";
+        }
+        model.addAttribute("listdataset", service.find(manager, nameTable));
+        return "findResult";
+    }
 
+    @RequestMapping(value = "/databases", method = RequestMethod.GET)
+    public String databases(Model model, HttpSession session) {
+        DBManager manager = getManager(session);
+        if (manager == null) {
+            session.setAttribute("from-page", "/databases");
+            return "redirect:/connect";
+        }
+        model.addAttribute("listdatabases", manager.getDatabases());
+        return "databases";
+    }
+
+    @RequestMapping(value = "/clear", method = RequestMethod.GET)
+    public String clearGET(Model model, HttpSession session) {
+        DBManager manager = getManager(session);
+        if (manager == null) {
+            session.setAttribute("from-page", "/clear");
+            return "redirect:/connect";
+        }
+        model.addAttribute("table", new Table());
+        return "clear";
+    }
+
+    @RequestMapping(value = "/clear", method = RequestMethod.POST)
+    public String clearPOST(Model model, HttpSession session, @RequestParam(value = "nameTable") String nameTable) {
+        DBManager manager = getManager(session);
+        manager.clear(nameTable);
+        model.addAttribute("listdataset", service.find(manager, nameTable));
+        return "findResult";
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    public String deleteGET(Model model, HttpSession session) {
+        DBManager manager = getManager(session);
+        if (manager == null) {
+            session.setAttribute("from-page", "/delete");
+            return "redirect:/connect";
+        }
+        model.addAttribute("table", new Table());
+        return "delete";
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public String deletePOST(Model model, HttpSession session,
+                             @RequestParam(value = "nameTable") String nameTable,
+                             @RequestParam(value = "columnName") String columnName,
+                             @RequestParam(value = "columnValue") String columnValue) {
+        DBManager manager = getManager(session);
+        manager.delete(nameTable, columnName, columnValue);
         model.addAttribute("listdataset", service.find(manager, nameTable));
         return "findResult";
     }

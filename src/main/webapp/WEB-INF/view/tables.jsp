@@ -14,7 +14,8 @@
     </c:forEach>
     <br>
     <a href="menu">Menu</a> <br>
-    <a href="tables">Tables</a> <br>
+    <a href="clear">Clear</a> <br>
+    <a href="delete">Delete</a> <br>
 </table>
 </body>
 </html>

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <html>
 <head>
@@ -7,26 +8,27 @@
 </head>
 <body>
 <p>Удаление данных таблицы:</p><br>
-<form action="delete" method="post">
+<form:form action="delete" method="post" modelAttribute="table">
     <table>
         <tr>
-            <td>Введите название таблицы:</td>
-            <td><input type="text" name="nameTable"/></td>
+            <td><form:label path="nameTable">Таблица</form:label></td>
+            <td><form:input path="nameTable"/></td>
         </tr>
         <tr>
-            <td>Введите название столбца таблицы:</td>
-            <td><input type="text" name="columnName"/></td>
+            <td><form:label path="columnName">Название столбца</form:label></td>
+            <td><form:input path="columnName"/></td>
         </tr>
         <tr>
-            <td>Введите значение столбца таблицы:</td>
-            <td><input type="text" name="columnValue"/></td>
+            <td><form:label path="columnValue">Значение столбца</form:label></td>
+            <td><form:input path="columnValue"/></td>
         </tr>
         <tr>
             <td></td>
             <td><input type="submit" value="delete"/></td>
         </tr>
     </table>
-</form>
+</form:form>
+
 <a href="help">Help</a> <br>
 <a href="menu">Menu</a> <br>
 </body>
