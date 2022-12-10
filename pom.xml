@@ -15,7 +15,7 @@
     <properties>
         <project.java.version>1.8</project.java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <org.springframework.version>5.1.8.RELEASE</org.springframework.version>
+        <org.springframework.version>6.0.0</org.springframework.version>
         <jettyVersion>8.1.3.v20120416</jettyVersion>
     </properties>
 
